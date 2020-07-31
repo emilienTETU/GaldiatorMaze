@@ -19,3 +19,8 @@ Le jeu est composé de 3 mode de jeux :
   
   - Le mode extreme : Le mode extreme est un mode de jeu qui se compose que d'une carte. La carte est généré aléatoirement pour offrir une expérience à l'utilisateur différente. Si le joueur gagne alors un autre labyrinthe est généré. Malheureusement si le joueur perd un autre labyrinthe est généré mais son score (nombre de labyrinthe effectué) revient à 0. 
   
+ <img src="https://github.com/emilienTETU/GaldiatorMaze/blob/master/ImageReadMe/Screenshot_20200731_144112_com.example.gladiateur.jpg" width="200" height="400">
+ <img src="https://github.com/emilienTETU/GaldiatorMaze/blob/master/ImageReadMe/Screenshot_20200731_144027_com.example.gladiateur.jpg" width="200" height="400">
+ <img src="https://github.com/emilienTETU/GaldiatorMaze/blob/master/ImageReadMe/Screenshot_20200731_144034_com.example.gladiateur.jpg" width="200" height="400">
+ <img src="https://github.com/emilienTETU/GaldiatorMaze/blob/master/ImageReadMe/Screenshot_20200731_144044_com.example.gladiateur.jpg" width="200" height="400">
+ 
