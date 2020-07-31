@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Gladiator Maze</string>
+    <string name="title_activity_game">Gladiator Maze</string>
+    <string name="title_home">Accueil</string>
+    <string name="menu_home">Accueil</string>
+    <string name="menu_history">Mode Histoire</string>
+    <string name="menu_arcade">Mode Arcade</string>
+    <string name="menu_random">Mode Extreme</string>
+</resources>

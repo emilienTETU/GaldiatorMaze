@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <!--
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.gladiateur.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_HomeFragment_to_HomeSecondFragment"
+            app:destination="@id/nav_home_second" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_home_second"
+        android:name="com.example.gladiateur.ui.home.HomeSecondFragment"
+        android:label="@string/home_second"
+        tools:layout="@layout/fragment_home_second">
+        <action
+            android:id="@+id/action_HomeSecondFragment_to_HomeFragment"
+            app:destination="@id/nav_home" />
+
+        <argument
+            android:name="myArg"
+            app:argType="string" />
+    </fragment>
+    -->
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.gladiateur.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home"/>
+
+    <fragment
+        android:id="@+id/nav_history"
+        android:name="com.example.gladiateur.HistoryFragment"
+        android:label="@string/menu_history"
+        tools:layout="@layout/fragment_history" />
+
+    <fragment
+        android:id="@+id/nav_arcade"
+        android:name="com.example.gladiateur.ArcadeFragment"
+        android:label="@string/menu_arcade"
+        tools:layout="@layout/fragment_arcade" />
+
+    <fragment
+        android:id="@+id/nav_random"
+        android:name="com.example.gladiateur.RandomFragment"
+        android:label="@string/menu_random"
+        tools:layout="@layout/fragment_random" />
+</navigation>
