@@ -26,7 +26,7 @@ class HomeViewModel : ViewModel() {
     val textPlayer: LiveData<String> = text_player
 
     private val text_glad = MutableLiveData<String>().apply {
-        value = "Votre ennemie"
+        value = "Votre ennemi"
     }
     val textGlad: LiveData<String> = text_glad
 

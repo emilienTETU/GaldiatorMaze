@@ -6,7 +6,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.MotionEvent.ACTION_DOWN
 import android.view.MotionEvent.ACTION_UP
@@ -25,7 +24,7 @@ import kotlin.math.abs
 import kotlin.math.sign
 
 
-class GameView(context: Context?, attrs: AttributeSet?) : View(context, attrs){
+class  GameView(context: Context?, attrs: AttributeSet?) : View(context, attrs){
 
     private enum class Direction{
         UP,DOWN,LEFT,RIGHT
@@ -150,15 +149,12 @@ class GameView(context: Context?, attrs: AttributeSet?) : View(context, attrs){
     }
 
     private fun movePlayer(dir : Direction) : Boolean{
-        //Log.d(DEBUG_TAG, "MOVE PLAYER -----------------")
         var victory = false
         if (playerCanMove) {
             when (dir) {
                 Direction.UP -> {
                     if (!player.topWall) {
-                        //Log.d(DEBUG_TAG, "UP")
                         victory = checkVictory(player.y - 1, ROW)
-                        Log.d(DEBUG_TAG, "VICTORY : $victory")
                         if (!victory) {
                             player = cells[player.x][player.y - 1]!!
                         }
@@ -166,9 +162,7 @@ class GameView(context: Context?, attrs: AttributeSet?) : View(context, attrs){
                 }
                 Direction.DOWN -> {
                     if (!player.bottomWall) {
-                        //Log.d(DEBUG_TAG, "DOWN")
                         victory = checkVictory(player.y + 1, ROW)
-                        Log.d(DEBUG_TAG, "VICTORY : $victory")
                         if (!victory) {
                             player = cells[player.x][player.y + 1]!!
                         }
@@ -176,9 +170,7 @@ class GameView(context: Context?, attrs: AttributeSet?) : View(context, attrs){
                 }
                 Direction.LEFT -> {
                     if (!player.leftWall) {
-                        //Log.d(DEBUG_TAG, "LEFT")
                         victory = checkVictory(player.x - 1, COLS)
-                        Log.d(DEBUG_TAG, "VICTORY : $victory")
                         if (!victory) {
                             player = cells[player.x - 1][player.y]!!
                         }
@@ -186,9 +178,7 @@ class GameView(context: Context?, attrs: AttributeSet?) : View(context, attrs){
                 }
                 Direction.RIGHT -> {
                     if (!player.rightWall) {
-                        //Log.d(DEBUG_TAG, "RIGHT")
                         victory = checkVictory(player.x + 1, COLS)
-                        Log.d(DEBUG_TAG, "VICTORY : $victory")
                         if (!victory) {
                             player = cells[player.x + 1][player.y]!!
                         }
@@ -203,10 +193,8 @@ class GameView(context: Context?, attrs: AttributeSet?) : View(context, attrs){
     private fun checkVictory(indexNext : Int, limit : Int) : Boolean{
         var victory = false
         if (indexNext < 0 || indexNext >= limit){
-            Log.d(DEBUG_TAG, "Victory")
             victory = true
             changeMaze()
-            createMaze()
         }
         return victory
     }
@@ -229,13 +217,10 @@ class GameView(context: Context?, attrs: AttributeSet?) : View(context, attrs){
         coroutineScope.launch {
             for (i in 0..1){
                 Thread.sleep(120)
-                //Log.d(DEBUG_TAG, "MOVE GLAD -----------------")
                 val xPlayer = player.x
                 val yPlayer = player.y
-                //Log.d(DEBUG_TAG, "player : $xPlayer $yPlayer")
                 val xGlad = glad.x
                 val yGlad = glad.y
-                //Log.d(DEBUG_TAG, "glad : $xGlad $yGlad")
                 if (xGlad != xPlayer){
                     moveOnX(xPlayer,yPlayer,xGlad,yGlad)
                 }else if (yGlad != yPlayer){
@@ -283,37 +268,22 @@ class GameView(context: Context?, attrs: AttributeSet?) : View(context, attrs){
     private fun checkDeadOrMove(xNext : Int, yNext : Int) : Boolean{
         var dead = false
         if (xNext == player.x && yNext == player.y){
-            Log.d(DEBUG_TAG, "DEAD")
-            //showDialog()
             resetMaze()
-            createMaze()
             dead = true
             playerCanMove = true
         }
         return dead
     }
 
-    /*private fun showDialog(){
-        val dialog = Dialog(this.context)
-        dialog.setContentView(R.layout.custom_dialog_dead)
-        dialog.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT)
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.show()
-        dialog.buttonDialog.setOnClickListener {
-            dialog.cancel()
-        }
-    }*/
-
     private fun resetMaze(){
         when(Mode.mode){
             GameMode.HISTORY -> Mode.mazeSelected.postValue(1)
-            GameMode.ARCADE -> {}
+            GameMode.ARCADE -> {Mode.mazeSelected.postValue(maze)}
             GameMode.EXTREME -> {Mode.mazeSelected.postValue(1)}
         }
     }
 
     override fun onDraw(canvas: Canvas?) {
-        //Log.d(DEBUG_TAG, "DRAW -----------------")
         canvas?.drawColor(context.getColor(R.color.background))
 
         val width = width
@@ -336,7 +306,6 @@ class GameView(context: Context?, attrs: AttributeSet?) : View(context, attrs){
         for (x  in 0 until COLS) {
             for (y in 0 until ROW) {
                  if(cells[x][y]!!.topWall){
-                     //wallPaint.color = Color.BLUE
                      canvas?.drawLine(
                          x*cellSize.toFloat(),
                          y*cellSize.toFloat(),
@@ -384,8 +353,6 @@ class GameView(context: Context?, attrs: AttributeSet?) : View(context, attrs){
         var margin = cellSize/8
 
         val drawableGlad = resources.getDrawable(R.drawable.ic_glad,null)
-        //width = right - left
-        //height == bottom - top.
         drawableGlad.setBounds(glad.x*cellSize+margin,
             glad.y*cellSize+margin,
             (glad.x+1)*cellSize-margin,
@@ -396,8 +363,6 @@ class GameView(context: Context?, attrs: AttributeSet?) : View(context, attrs){
         }
 
         val drawablePlayer = resources.getDrawable(R.drawable.ic_player,null)
-        //width = right - left
-        //height == bottom - top.
         drawablePlayer.setBounds(player.x*cellSize+margin,
             player.y*cellSize+margin,
             (player.x+1)*cellSize-margin,
@@ -423,14 +388,13 @@ class GameView(context: Context?, attrs: AttributeSet?) : View(context, attrs){
     //______________________________________________________________________________________
     private fun createMazeRandom(){
         var nextPosition : Cell?
-        COLS = 8
-        ROW = 8
+        COLS = (7 until 15).random()
+        ROW = (7 until 15).random()
 
         initMaze()
 
-        //[COL][ROW]
-        player = cells[0][0]!!
-        glad  = cells[0][7]!!
+        player = cells[COLS/2][0]!!
+        glad  = cells[COLS/2][ROW-1]!!
 
         for (x in 0 until COLS) {
             for (y in 0 until ROW) {
@@ -438,16 +402,16 @@ class GameView(context: Context?, attrs: AttributeSet?) : View(context, attrs){
                 cells[x][y]?.bottomWall = true
                 cells[x][y]?.leftWall = true
                 cells[x][y]?.rightWall = true
+                cells[x][y]?.visited = false
             }
         }
 
-        var curentPosition : Cell? = cells[0][0]
+        var curentPosition : Cell? = player
         var isDone = false
         curentPosition?.visited = true
-
         do {
+
             nextPosition = curentPosition?.let {getNeighbour(it)}
-            Log.i(DEBUG_TAG,"Curent position : $curentPosition next : $nextPosition")
             if (nextPosition != null && curentPosition != null){
                 curentPosition = nextPosition
                 curentPosition.visited = true
@@ -462,8 +426,7 @@ class GameView(context: Context?, attrs: AttributeSet?) : View(context, attrs){
                 }
             }
         }while (!isDone)
-
-        cells[7][5]?.rightWall = false
+        cells[COLS/2][ROW-1]?.bottomWall = false
     }
 
     private fun getNotVisitedCell() : Cell?{
@@ -480,33 +443,54 @@ class GameView(context: Context?, attrs: AttributeSet?) : View(context, attrs){
 
     private fun getNeighbour(current : Cell) : Cell? {
         var neighbours = ArrayList<Cell>()
+        var neighboursVisited = ArrayList<Cell>()
         var random = Random()
         //LEFT
         if (current.x > 0){
             var cell = cells[current.x-1][current.y]
-            if(cell != null && !cell.visited){
-                neighbours.add(cell)
+            if(cell != null){
+                if (!cell.visited){
+                    neighbours.add(cell)
+                }
+                else{
+                    neighboursVisited.add(cell)
+                }
             }
         }
         //RIGHT
         if (current.x < COLS-1){
             var cell = cells[current.x+1][current.y]
-            if(cell != null && !cell.visited){
-                neighbours.add(cell)
+            if(cell != null){
+                if (!cell.visited){
+                    neighbours.add(cell)
+                }
+                else{
+                    neighboursVisited.add(cell)
+                }
             }
         }
         //TOP
         if (current.y > 0){
             var cell = cells[current.x][current.y-1]
-            if(cell != null && !cell.visited){
-                neighbours.add(cell)
+            if(cell != null){
+                if (!cell.visited){
+                    neighbours.add(cell)
+                }
+                else{
+                    neighboursVisited.add(cell)
+                }
             }
         }
         //BOTTOM
         if (current.y < ROW-1){
             var cell = cells[current.x][current.y+1]
-            if(cell != null && !cell.visited){
-                neighbours.add(cell)
+            if(cell != null){
+                if (!cell.visited){
+                    neighbours.add(cell)
+                }
+                else{
+                    neighboursVisited.add(cell)
+                }
             }
         }
         if (neighbours.size > 0){
@@ -516,6 +500,11 @@ class GameView(context: Context?, attrs: AttributeSet?) : View(context, attrs){
                 removeWall(current,neighbours[index])
             }
             return neighbours[index]
+        }
+        else if (neighboursVisited.size > 0){
+            val index = random.nextInt(neighboursVisited.size)
+            removeWall(current,neighboursVisited[index])
+            return null
         }
         else{
             return null
@@ -2393,8 +2382,6 @@ class GameView(context: Context?, attrs: AttributeSet?) : View(context, attrs){
 
         cells[6][5]?.topWall = false
     }
-
-
 
     private fun Context.lifecycleOwner(): LifecycleOwner? {
         var curContext = this
